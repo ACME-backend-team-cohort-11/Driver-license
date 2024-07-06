@@ -1,3 +1,16 @@
 from django.db import models
 
-# Create your models here.
+class DriverLicense(models.Model):
+    full_name = models.CharField(max_length=100)
+    license_number = models.CharField(max_length=20, unique=True)
+    issued_date = models.DateField()
+    expiry_date = models.DateField()
+    status = models.CharField(max_length=20, choices=[
+        ('valid', 'Valid'),
+        ('suspended', 'Suspended'),
+        ('expired', 'Expired'),
+        ('fake' , 'FAKE'),
+    ])
+
+    def __str__(self):
+        return f"{self.license_number} - {self.full_name}"
