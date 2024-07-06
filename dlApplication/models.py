@@ -56,6 +56,6 @@ class LicenseReissue(models.Model):
     reissue_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"Reissue of Driver's License {self.old_license_number} to {self.new_license_number}"
+        return f"{self.applicant.first_name} {self.applicant.last_name} - Driver License Reissue"
 
 
