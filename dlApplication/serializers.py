@@ -6,17 +6,19 @@ from .models import CustomUser
 
 class CustomUserSerializer(serializers.ModelSerializer):
     model = CustomUser
-    fields = ('username', 'nin', 'phone_number')
-
+    fields = '__all__'
 
 class NewApplicationSerializer(serializers.ModelSerializer):
     model = NewApplication
-    fields = ('first_name', 'last_name', 'email', 'phone_number', 'address', 'license_type')
+    fields = '__all__'
+
 
 class RenewalSerializer(serializers.ModelSerializer):
     model = LicenseRenewal
-    fields = ('application', 'renewal_fee', 'expiration_date', 'new_expiration_date')
+    fields = '__all__'
+
 
 class ReissueSerializer(serializers.ModelSerializer):
     model = LicenseReissue
-    fields = ('application', 'reissue_reason', 'old_license_number', 'new_license_number', 'expiration_date')
+    fields = '__all__'
+
