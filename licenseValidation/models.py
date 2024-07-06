@@ -9,7 +9,7 @@ class DriverLicense(models.Model):
         ('valid', 'Valid'),
         ('suspended', 'Suspended'),
         ('expired', 'Expired'),
-        ('fake' , 'FAKE'),
+        ('fake', 'Fake'),
     ])
 
     def __str__(self):
