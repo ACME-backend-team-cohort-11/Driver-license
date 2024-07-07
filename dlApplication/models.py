@@ -1,6 +1,4 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import Permission
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group, Permission, AbstractUser
 from django.db import models
 import uuid
 
@@ -36,8 +34,8 @@ class NewApplication(models.Model):
     application_id = models.CharField(max_length=100, unique=True, default=uuid.uuid4, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-     
-    def str(self):
+
+    def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.application_type}'
 
 class LicenseRenewal(models.Model):
@@ -45,22 +43,16 @@ class LicenseRenewal(models.Model):
     license_number = models.CharField(max_length=20, unique=True)
     license_expiration_date = models.DateField()
     renewal_fee = models.DecimalField(max_digits=10, decimal_places=2)
-    vision_test_result = models.BooleanField(default=False)
-    medical_certificate = models.FileField(upload_to='medical_certificates/', null=False, blank=False)
 
     def __str__(self):
         return f"{self.applicant.first_name} {self.applicant.last_name} - Driver License Renewal"
-    
+
 class LicenseReissue(models.Model):
     applicant = models.ForeignKey(NewApplication, on_delete=models.CASCADE)
-    old_license_number = models.CharField(max_length=20)
-    old_license_expiration_date = models.DateField()
-    new_license_number = models.CharField(max_length=20, unique=True)
-    new_license_expiration_date = models.DateField()
+    license_number = models.CharField(max_length=20)
+    license_expiration_date = models.DateField()
     reissue_reason = models.TextField()
     reissue_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"Reissue of Driver's License {self.old_license_number} to {self.new_license_number}"
-
-
+        return f"Reissue of Driver's License {self.license_number}"
