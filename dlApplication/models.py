@@ -42,7 +42,6 @@ class LicenseRenewal(models.Model):
     applicant = models.ForeignKey(NewApplication, on_delete=models.CASCADE)
     license_number = models.CharField(max_length=20, unique=True)
     license_expiration_date = models.DateField()
-    renewal_fee = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.applicant.first_name} {self.applicant.last_name} - Driver License Renewal"
@@ -51,8 +50,12 @@ class LicenseReissue(models.Model):
     applicant = models.ForeignKey(NewApplication, on_delete=models.CASCADE)
     license_number = models.CharField(max_length=20)
     license_expiration_date = models.DateField()
+    
     reissue_reason = models.TextField()
     reissue_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"Reissue of Driver's License {self.license_number}"
+        return f"{self.applicant.first_name} {self.applicant.last_name} - Driver License Reissue"
+
+
+
