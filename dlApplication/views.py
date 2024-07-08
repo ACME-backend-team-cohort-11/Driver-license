@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions, status
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -38,7 +38,7 @@ class NewApplicationCreateView(generics.CreateAPIView):
     queryset = NewApplication.objects.all()
     serializer_class = NewApplicationSerializer
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (JSONParser ,MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
