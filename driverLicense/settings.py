@@ -45,13 +45,17 @@ INSTALLED_APPS = [
     'dlApplication',
     'licenseValidation',
     'corsheaders',
-]
+    'licenseValidation'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.security.SecurityMiddleware'
     'corsheaders.middleware.CorsMiddleware'
+
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -62,7 +66,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
 ]
-
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'driverLicense.urls'
 
