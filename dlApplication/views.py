@@ -1,20 +1,26 @@
-# views.py
-
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import CustomUser, NewApplication, LicenseRenewal, LicenseReissue
-from .serializers import CustomUserSerializer, NewApplicationSerializer, RenewalSerializer, ReissueSerializer
+from .models import CustomUser, NewApplication, LicenseRenewal, LicenseReissue, ArchivedUser
+from .serializers import CustomUserSerializer, NewApplicationSerializer, RenewalSerializer, ReissueSerializer, ArchivedUserSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework import status
 
 class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [permissions.AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        user = CustomUser.objects.get(username=response.data['username'])
+        refresh = RefreshToken.for_user(user)
+        response.data['refresh'] = str(refresh)
+        response.data['access'] = str(refresh.access_token)
+        return response
 
 class CustomUserDetailView(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
@@ -50,7 +56,8 @@ class RenewalCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         application = get_object_or_404(NewApplication, user=self.request.user)
-        serializer.save(applicant=application)
+        archived_user = get_object_or_404(ArchivedUser, nin=self.request.user.nin)
+        serializer.save(applicant=application, archived_user=archived_user)
 
 class ReissueCreateView(generics.CreateAPIView):
     queryset = LicenseReissue.objects.all()
@@ -59,7 +66,8 @@ class ReissueCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         application = get_object_or_404(NewApplication, user=self.request.user)
-        serializer.save(applicant=application)
+        archived_user = get_object_or_404(ArchivedUser, nin=self.request.user.nin)
+        serializer.save(applicant=application, archived_user=archived_user)
 
 class TrackApplicationStatusView(APIView):
     permission_classes = [permissions.IsAuthenticated]

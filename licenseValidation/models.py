@@ -7,7 +7,6 @@ class DriverLicense(models.Model):
     expiry_date = models.DateField()
     status = models.CharField(max_length=20, choices=[
         ('valid', 'Valid'),
-        ('suspended', 'Suspended'),
         ('expired', 'Expired'),
         ('fake', 'Fake'),
     ])

@@ -1,23 +1,23 @@
-from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import DriverLicense
-from django.http import HttpResponse
+from .serializers import DriverLicenseSerializer
 
-def verify_license(request):
-    if request.method == 'GET':
-        license_number = request.GET.get('license_number')
-        try:
-            license = DriverLicense.objects.get(license_number=license_number)
-            context = {'license': license}
-        except DriverLicense.DoesNotExist:
-            context = {'error': 'License not found'}
-        return render(request, 'licenses/verify_license.html', context)
+class LicenseListAPIView(APIView):
+    def get(self, request, status):
+        licenses = DriverLicense.objects.filter(status=status)
+        serializer = DriverLicenseSerializer(licenses, many=True)
+        return Response(serializer.data)
 
-def license_status(request):
-    if request.method == 'GET':
-        license_number = request.GET.get('license_number')
-        try:
-            license = DriverLicense.objects.get(license_number=license_number)
-            status = license.status
-            return HttpResponse(f"License status: {status}")
-        except DriverLicense.DoesNotExist:
-            return HttpResponse("License not found")
+class ValidLicensesAPIView(LicenseListAPIView):
+    def get(self, request):
+        return super().get(request, 'valid')
+
+class ExpiredLicensesAPIView(LicenseListAPIView):
+    def get(self, request):
+        return super().get(request, 'expired')
+
+class FakeLicensesAPIView(LicenseListAPIView):
+    def get(self, request):
+        return super().get(request, 'fake')
