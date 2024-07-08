@@ -25,7 +25,6 @@ class DriverLicenseViewSet(viewsets.ModelViewSet):
 
         status_map = {
             DriverLicense.EXPIRED: "Expired",
-            DriverLicense.SUSPENDED: "Suspended",
             DriverLicense.FAKE: "Fake",
             DriverLicense.VALID: "Valid",
         }
