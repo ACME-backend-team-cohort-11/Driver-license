@@ -7,13 +7,11 @@ from datetime import date
 
 class DriverLicense(models.Model):
     VALID = 'Valid'
-    SUSPENDED = 'Suspended'
     FAKE = 'Fake'
     EXPIRED = 'Expired'
 
     STATUS_CHOICES = [
         (VALID, 'Valid'),
-        (SUSPENDED, 'Suspended'),
         (FAKE, 'Fake'),
         (EXPIRED, 'Expired'),
     ]
