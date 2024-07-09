@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     # local apps
     'dlApplication',
     'licenseValidation',
-    'accounts'
+    'accounts',
+    'nationalId'
 ]
 
 MIDDLEWARE = [
