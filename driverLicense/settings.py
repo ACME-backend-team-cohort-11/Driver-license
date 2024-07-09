@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'licenseValidation',
-    'rest_framework,
+    'rest_framework',
+    'License',
 ]
 
 MIDDLEWARE = [
@@ -77,22 +78,30 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'driverLicense.wsgi.application'
+WSGI_APPLICATION = 'driverLicense.wsgi.application'
+
 
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'user_authentication',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Nna123.',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'user_authentication',
-        'USER': 'postgres',
-        'PASSWORD': 'Nna123.',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+     }
+ }
 
 
 # Password validation
