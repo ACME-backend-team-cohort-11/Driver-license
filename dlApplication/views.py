@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import CustomUser, NewApplication, LicenseRenewal, LicenseReissue, ArchivedUser
+from .models import NewApplication, LicenseRenewal, LicenseReissue, ArchivedUser
+from accounts.models import CustomUser
 from .serializers import CustomUserSerializer, NewApplicationSerializer, RenewalSerializer, ReissueSerializer, ArchivedUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -37,8 +38,8 @@ class CustomUserUpdateView(generics.UpdateAPIView):
 class NewApplicationCreateView(generics.CreateAPIView):
     queryset = NewApplication.objects.all()
     serializer_class = NewApplicationSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    parser_classes = (JSONParser ,MultiPartParser, FormParser)
+    permission_classes = [permissions.AllowAny]
+    #parser_classes = (JSONParser ,MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

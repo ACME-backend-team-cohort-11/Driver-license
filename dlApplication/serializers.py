@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser, NewApplication, LicenseRenewal, LicenseReissue, ArchivedUser
+from .models import NewApplication, LicenseRenewal, LicenseReissue, ArchivedUser
+from accounts.models import CustomUser
 
 class CustomUserSerializer(serializers.ModelSerializer):
 
